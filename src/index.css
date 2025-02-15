@@ -74,3 +74,61 @@
 .animate-slide-up {
   animation: slideUp 0.5s ease-out forwards;
 }
+
+/* Rotating Text Animations */
+.rotatingText { 
+  @apply flex items-center min-h-screen text-center;
+}
+
+.rotatingText-content { 
+  @apply relative w-full;
+}
+
+.rotatingText-description { 
+  @apply font-serif italic text-sm m-0 md:text-lg;
+}
+
+.rotatingText-adjective { 
+  @apply font-sans text-4xl md:text-6xl absolute left-0 right-0 mt-8 mb-0 opacity-0 text-center uppercase top-0;
+}
+
+.rotatingText-adjective:nth-of-type(1) { 
+  animation: rotate-text-up 1.5s 0.75s;
+}
+
+.rotatingText-adjective:nth-of-type(2) { 
+  animation: rotate-text-up 1.5s 2s;
+}
+
+.rotatingText-adjective:nth-of-type(3) { 
+  animation: fade-text-in 1.5s 3.25s forwards;
+}
+
+@keyframes rotate-text-up { 
+  0% {
+    transform: translate3d(0, 80px, 0);
+    opacity: 0;
+  }
+  
+  20%, 80% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  
+  100% {
+    transform: translate3d(0, -40px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-text-in { 
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 80px, 0);
+  }
+  
+  50%, 100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
