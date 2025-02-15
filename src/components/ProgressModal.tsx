@@ -12,12 +12,13 @@ interface ProgressModalProps {
 
 export function ProgressModal({ isOpen, onClose, duration = 3000 }: ProgressModalProps) {
   const [progress, setProgress] = useState(0);
-  const [showText, setShowText] = useState(false);
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const texts = ["Processing...", "Almost there...", "Finalizing..."];
 
   useEffect(() => {
     if (isOpen) {
       setProgress(0);
-      setShowText(false);
+      setCurrentTextIndex(0);
       const interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
@@ -28,12 +29,14 @@ export function ProgressModal({ isOpen, onClose, duration = 3000 }: ProgressModa
         });
       }, duration / 100);
 
-      // Trigger text animation when progress hits certain points
-      const textTimer = setTimeout(() => setShowText(true), duration / 3);
+      // Text rotation timing
+      const textInterval = setInterval(() => {
+        setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+      }, duration / 3);
 
       return () => {
         clearInterval(interval);
-        clearTimeout(textTimer);
+        clearTimeout(textInterval);
       };
     }
   }, [isOpen, duration]);
@@ -44,29 +47,22 @@ export function ProgressModal({ isOpen, onClose, duration = 3000 }: ProgressModa
         <div className="px-4 py-6 space-y-6">
           <div className="space-y-2">
             <Progress value={progress} className="h-2 w-full" />
-            <div className="relative h-20 overflow-hidden">
-              <p
-                className={cn(
-                  "text-lg text-center absolute w-full transition-all duration-500 transform",
-                  showText
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-full opacity-0"
-                )}
-              >
-                Processing your request...
-              </p>
-              {progress >= 75 && (
+            <div className="h-24 relative overflow-hidden">
+              {texts.map((text, index) => (
                 <p
+                  key={text}
                   className={cn(
-                    "text-xl font-semibold text-center absolute w-full transition-all duration-500 transform",
-                    progress >= 75
+                    "absolute w-full text-center transition-all duration-500 transform text-lg",
+                    currentTextIndex === index
                       ? "translate-y-0 opacity-100"
+                      : index < currentTextIndex
+                      ? "-translate-y-full opacity-0"
                       : "translate-y-full opacity-0"
                   )}
                 >
-                  Almost there!
+                  {text}
                 </p>
-              )}
+              ))}
             </div>
           </div>
         </div>
