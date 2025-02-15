@@ -7,13 +7,20 @@ import { cn } from "@/lib/utils";
 interface ProgressModalProps {
   isOpen: boolean;
   onClose: () => void;
-  duration?: number; // Duration in milliseconds
+  duration?: number;
+  texts?: string[];
+  className?: string;
 }
 
-export function ProgressModal({ isOpen, onClose, duration = 3000 }: ProgressModalProps) {
+export function ProgressModal({ 
+  isOpen, 
+  onClose, 
+  duration = 3000,
+  texts = ["Processing...", "Almost there...", "Finalizing..."],
+  className 
+}: ProgressModalProps) {
   const [progress, setProgress] = useState(0);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const texts = ["Processing...", "Almost there...", "Finalizing..."];
 
   useEffect(() => {
     if (isOpen) {
@@ -32,18 +39,18 @@ export function ProgressModal({ isOpen, onClose, duration = 3000 }: ProgressModa
       // Text rotation timing
       const textInterval = setInterval(() => {
         setCurrentTextIndex((prev) => (prev + 1) % texts.length);
-      }, duration / 3);
+      }, duration / texts.length);
 
       return () => {
         clearInterval(interval);
         clearTimeout(textInterval);
       };
     }
-  }, [isOpen, duration]);
+  }, [isOpen, duration, texts.length]);
 
   return (
     <Dialog open={isOpen} onOpenChange={() => progress >= 100 && onClose()}>
-      <DialogContent className="sm:max-w-md bg-white/80 backdrop-blur-lg border border-gray-200 shadow-lg">
+      <DialogContent className={cn("sm:max-w-md bg-white/80 backdrop-blur-lg border border-gray-200 shadow-lg", className)}>
         <div className="px-4 py-6 space-y-6">
           <div className="space-y-2">
             <Progress value={progress} className="h-2 w-full" />
