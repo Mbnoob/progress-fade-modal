@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { ProgressModal } from "@/components/ProgressModal";
 
 const Index = () => {
@@ -14,7 +13,6 @@ const Index = () => {
     setIsModalOpen(false);
   };
 
-  // Example of custom texts and duration
   const customTexts = [
     "Starting the process...",
     "Gathering information...",
@@ -23,19 +21,18 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold mb-8">Progress Modal Demo</h1>
-        <div className="space-y-4">
-          {/* Default Progress Modal */}
-          <div>
-            <h2 className="text-xl mb-2">Default Progress</h2>
-            <Button 
+    <div className="demo-container">
+      <div className="demo-container__content">
+        <h1 className="demo-container__title">Progress Modal Demo</h1>
+        <div>
+          <div className="demo-container__section">
+            <h2 className="demo-container__section-title">Default Progress</h2>
+            <button 
               onClick={handleOpenModal}
-              className="px-6 py-3 rounded-lg bg-black text-white hover:bg-black/90 transition-colors"
+              className="button button--default"
             >
               Open Default Modal
-            </Button>
+            </button>
             <ProgressModal 
               isOpen={isModalOpen} 
               onClose={handleCloseModal} 
@@ -43,21 +40,20 @@ const Index = () => {
             />
           </div>
 
-          {/* Custom Progress Modal */}
-          <div>
-            <h2 className="text-xl mb-2">Custom Progress</h2>
-            <Button 
+          <div className="demo-container__section">
+            <h2 className="demo-container__section-title">Custom Progress</h2>
+            <button 
               onClick={handleOpenModal}
-              className="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              className="button button--blue"
             >
               Open Custom Modal
-            </Button>
+            </button>
             <ProgressModal 
               isOpen={isModalOpen} 
               onClose={handleCloseModal}
               duration={5000}
               texts={customTexts}
-              className="bg-blue-50/80"
+              className="progress-modal--blue"
             />
           </div>
         </div>

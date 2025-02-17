@@ -1,8 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Progress } from "@/components/ui/progress";
-import { cn } from "@/lib/utils";
+import "./ProgressModal.scss";
 
 interface ProgressModalProps {
   isOpen: boolean;
@@ -36,7 +35,6 @@ export function ProgressModal({
         });
       }, duration / 100);
 
-      // Text rotation timing
       const textInterval = setInterval(() => {
         setCurrentTextIndex((prev) => (prev + 1) % texts.length);
       }, duration / texts.length);
@@ -50,22 +48,26 @@ export function ProgressModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={() => progress >= 100 && onClose()}>
-      <DialogContent className={cn("sm:max-w-md bg-white/80 backdrop-blur-lg border border-gray-200 shadow-lg", className)}>
-        <div className="px-4 py-6 space-y-6">
-          <div className="space-y-2">
-            <Progress value={progress} className="h-2 w-full" />
-            <div className="h-24 relative overflow-hidden">
+      <DialogContent className={`progress-modal ${className || ''}`}>
+        <div className="progress-modal__content">
+          <div className="progress-modal__container">
+            <div className="progress-modal__progress">
+              <div 
+                className="progress-modal__progress-bar"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <div className="progress-modal__text-container">
               {texts.map((text, index) => (
                 <p
                   key={text}
-                  className={cn(
-                    "absolute w-full text-center transition-all duration-500 transform text-lg",
-                    currentTextIndex === index
-                      ? "translate-y-0 opacity-100"
+                  className={`progress-modal__text ${
+                    currentTextIndex === index 
+                      ? 'progress-modal__text--active'
                       : index < currentTextIndex
-                      ? "-translate-y-full opacity-0"
-                      : "translate-y-full opacity-0"
-                  )}
+                      ? 'progress-modal__text--previous'
+                      : ''
+                  }`}
                 >
                   {text}
                 </p>
