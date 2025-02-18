@@ -17,8 +17,14 @@
     gap: 0.5rem;
   }
 
+  &__progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
   &__progress {
-    width: 100%;
+    flex: 1;
     height: 0.5rem;
     background-color: #e5e7eb;
     border-radius: 9999px;
@@ -30,6 +36,13 @@
       transition: width 0.1s ease-out;
       border-radius: 9999px;
     }
+  }
+
+  &__percentage {
+    min-width: 3rem;
+    text-align: right;
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
   &__text-container {

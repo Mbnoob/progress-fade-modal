@@ -51,11 +51,14 @@ export function ProgressModal({
       <DialogContent className={`progress-modal ${className || ''}`}>
         <div className="progress-modal__content">
           <div className="progress-modal__container">
-            <div className="progress-modal__progress">
-              <div 
-                className="progress-modal__progress-bar"
-                style={{ width: `${progress}%` }}
-              />
+            <div className="progress-modal__progress-wrapper">
+              <div className="progress-modal__progress">
+                <div 
+                  className="progress-modal__progress-bar"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <span className="progress-modal__percentage">{Math.round(progress)}%</span>
             </div>
             <div className="progress-modal__text-container">
               {texts.map((text, index) => (
